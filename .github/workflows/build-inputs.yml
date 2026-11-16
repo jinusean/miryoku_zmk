@@ -12,7 +12,7 @@ jobs:
     with:
       board: '["seeeduino_xiao_ble"]'
       shield: '["totem_left","totem_right","settings_reset"]'
-      alphas: '["default"]'
+      alphas: '["qwerty"]'
       nav: '["default"]'
       layers: '["default"]'
       mapping: '["default"]'
