@@ -16,7 +16,7 @@ jobs:
       nav: '["default"]'
       layers: '["default"]'
       mapping: '["default"]'
-      custom_config: '["default"]'
+      custom_config: '["#define MIRYOKU_CLIPBOARD_MAC"]'
       kconfig: '["default"]'
       branches: '["zmkfirmware/zmk/v0.3"]'
       modules: '["default"]'
