@@ -1,10 +1,10 @@
-name: 'Build TOTEM'
-on:
-  workflow_dispatch:
+name: Build TOTEM
+'on':
+  workflow_dispatch: null
   push:
     paths:
-      - 'miryoku/custom_config.h'
-      - '.github/workflows/build-totem.yml'
+      - miryoku/custom_config.h
+      - .github/workflows/build-totem.yml
 jobs:
   build:
     uses: ./.github/workflows/main.yml
@@ -20,3 +20,26 @@ jobs:
       kconfig: '["default"]'
       branches: '["zmkfirmware/zmk/v0.3"]'
       modules: '["default"]'
+  draw:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install keymap-drawer
+      - name: Apply the same custom_config as the build job
+        run: >-
+          printf '%s\n' '#define MIRYOKU_CLIPBOARD_MAC' >>
+          miryoku/custom_config.h
+      - name: Draw
+        run: |
+          if [ ! -f config/totem.keymap ]; then
+            echo "config/totem.keymap not found. Files in config/:"; ls config; exit 1
+          fi
+          keymap parse -z config/totem.keymap > totem.yaml
+          keymap draw totem.yaml > totem.svg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: totem-keymap-drawing
+          path: totem.*
